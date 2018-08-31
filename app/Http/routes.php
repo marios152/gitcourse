@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+//resource is responsible for get and post requests
+
+Route::resource('admin/users','AdminUsersController');
