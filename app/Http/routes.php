@@ -21,3 +21,11 @@ Route::get('/home', 'HomeController@index');
 
 //resource is responsible for get and post requests
 Route::resource('admin/users','AdminUsersController');
+
+
+Route::get('/admin',function(){
+
+
+    return view('admin.index');
+
+});
