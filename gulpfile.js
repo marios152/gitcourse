@@ -24,8 +24,8 @@ elixir(function(mix) {
             'libs/style.css'
         ],'./public/css/libs.css') //compile the above scripts into this folder. if the folder does not exist it will create it automatically
             .scripts([
-                'libs/bootstrap.js',
                 'libs/jquery.js',
+                'libs/bootstrap.js',
                 'libs/metisMenu.js',
                 'libs/sb-admin-2.js',
                 'libs/scripts.js'

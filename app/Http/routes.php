@@ -19,9 +19,16 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-//resource is responsible for get and post requests
-Route::resource('admin/users','AdminUsersController');
 
+
+Route::group(['middleware'=>'admin'],function(){
+
+    //resource is responsible for get and post requests
+    Route::resource('admin/users','AdminUsersController');
+
+    Route::resource('admin/posts','AdminPostsController');
+
+});
 
 Route::get('/admin',function(){
 
