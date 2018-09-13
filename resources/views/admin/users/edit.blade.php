@@ -46,14 +46,14 @@
 
 
             <div class="form-group">
-                {!! Form::submit('Update User',['class'=>'bnt, btn-primary, col-sm-6']) !!}
+                {!! Form::submit('Update User',['class'=>'bnt btn-primary col-sm-6']) !!}
             </div>
         {!! Form::close() !!}
 
         {!! Form::model($user,['method'=>'DELETE', 'action'=>['AdminUsersController@destroy',$user->id]]) !!}
 
             <div class="form-group">
-                {!! Form::submit('Delete User',['class'=>'bnt, btn-danger, col-sm-6']) !!}
+                {!! Form::submit('Delete User',['class'=>'bnt btn-danger col-sm-6']) !!}
             </div>
 
         {!! Form::close() !!}

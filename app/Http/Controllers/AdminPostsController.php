@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdminPostsController extends Controller
 {
@@ -87,6 +88,9 @@ class AdminPostsController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::findOrFail($id);
+        $categories = Category::lists('name','id')->all();
+        return view('admin.posts.edit',compact('post','categories'));
     }
 
     /**
@@ -99,6 +103,26 @@ class AdminPostsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $input= $request->all();
+
+
+
+        if($file = $request->file('photo_id')) {
+            $name =time(). $file->getClientOriginalName();
+            $file->move('images',$name);
+            $photo = Photo::create(['file'=>$name]);
+            $input['photo_id'] = $photo->id;
+        }
+
+        // get users posts and return the first one that matches the id that we sent.
+        // any way we edit one post at a time that's why we return the firstone and update it
+        // all in one line!!! Retrieve and Update
+        Auth::user()->posts()->whereId($id)->first()->update($input);
+
+
+
+
+        return redirect('/admin/posts');
     }
 
     /**
@@ -110,5 +134,16 @@ class AdminPostsController extends Controller
     public function destroy($id)
     {
         //
+
+        $post = Post::findOrFail($id);
+        if($post->photo){
+            unlink(public_path().$post->photo->file);
+        }
+
+        Session::flash('deleted_post','Post with title: "'.$post->title.'" has been deleted');
+        $post->delete();
+
+        return redirect('admin/posts');
     }
+
 }
