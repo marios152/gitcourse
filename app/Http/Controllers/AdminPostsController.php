@@ -41,7 +41,7 @@ class AdminPostsController extends Controller
     public function create()
     {
         //
-        $categories = Category::lists('name','id')->all(); // this is important in order to make a select statement in blade
+        $categories = Category::pluck('name','id')->all(); // this is important in order to make a select statement in blade
         return view('admin.posts.create',compact('categories'));
     }
 
@@ -64,7 +64,8 @@ class AdminPostsController extends Controller
             $input['photo_id'] = $photo->id;
         }
 
-        $user->posts()->create($input);
+       $user->posts()->create($input);
+
 
         return redirect('/admin/posts');
     }
@@ -90,7 +91,7 @@ class AdminPostsController extends Controller
     {
         //
         $post = Post::findOrFail($id);
-        $categories = Category::lists('name','id')->all();
+        $categories = Category::pluck('name','id')->all();
         return view('admin.posts.edit',compact('post','categories'));
     }
 
@@ -154,6 +155,11 @@ class AdminPostsController extends Controller
      */
     public function post($slug){
         $post = Post::findBySlugOrFail($slug);
+
+        //$post = Post::where('slug',$slug)->first();
+
+
+//        dd($post->comments()->whereIsActive(1)->get());
 
         $comments = $post->comments()->whereIsActive(1)->get();
 
